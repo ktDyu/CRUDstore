@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ public class Store {
     @Id
     private String id;
 
-    @Field(name = "storeName")
+    @Field(name = "store_name")
     private String storeName;
 
     @Field(name = "address")
@@ -28,4 +29,9 @@ public class Store {
     @Field(name = "price")
     private Double price;
 
+    @Field(name = "date_create")
+    private String dateCreate;
+
+    @Field(name = "date_update")
+    private String dateUpdate;
 }

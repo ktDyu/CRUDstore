@@ -18,7 +18,6 @@ public class StoreRequest {
     @NotEmpty(message = "Không bỏ trống email")
     @Email(message = "Email chưa đúng định dạng")
     private String email;
-
     private String sdt;
 
     private Double price;
