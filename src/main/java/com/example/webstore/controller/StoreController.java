@@ -1,7 +1,9 @@
 package com.example.webstore.controller;
 
 import com.example.webstore.entity.Store;
+import com.example.webstore.request.StoreRequest;
 import com.example.webstore.response.StorePageResponse;
+import com.example.webstore.response.StoreResponse;
 import com.example.webstore.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,12 +19,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/api/stores")
 public class StoreController {
 
@@ -82,4 +86,9 @@ public class StoreController {
         return ResponseEntity.ok(list);
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<List<StoreResponse>> search(@RequestBody StoreRequest storeRequest){
+        List<StoreResponse> responses = storeService.searchStore(storeRequest);
+        return ResponseEntity.ok(responses);
+    }
 }
