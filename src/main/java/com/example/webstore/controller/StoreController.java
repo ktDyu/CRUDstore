@@ -1,8 +1,12 @@
 package com.example.webstore.controller;
 
 import com.example.webstore.entity.Store;
+import com.example.webstore.response.StorePageResponse;
 import com.example.webstore.service.StoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -55,15 +59,26 @@ public class StoreController {
         return ResponseEntity.ok(store1);
     }
 
-
-
     @GetMapping("/{name}")
     public ResponseEntity<Store> getStoreName(@PathVariable String name) {
-        var t = storeService.getStoreByName(name);
-        if(t.get() == null){
+        var t = storeService.getStoreByName(name).orElse(null);
+        if(t==null){
             return ResponseEntity.ok(null);
         }
-        return ResponseEntity.ok(t.get());
+        return ResponseEntity.ok(t);
     }
-
+//    @GetMapping("/phan-trang")
+//    public ResponseEntity<Page<Store>> getTrang(@RequestParam(defaultValue = "0") int page,
+//                                                @RequestParam(defaultValue = "5") int size){
+//        Pageable pageable = PageRequest.of(page, size);
+//
+//        Page<Store> c = storeService.getAllStores(pageable);
+//        return ResponseEntity.ok(c);
+//    }
+    @GetMapping("/phan-trang")
+    public ResponseEntity<StorePageResponse> getTrang(@RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "5") int size) {
+       StorePageResponse list = storeService.getAllStorePage(page,size);
+        return ResponseEntity.ok(list);
+    }
 }
