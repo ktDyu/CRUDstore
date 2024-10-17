@@ -81,4 +81,5 @@ public class StoreController {
        StorePageResponse list = storeService.getAllStorePage(page,size);
         return ResponseEntity.ok(list);
     }
+
 }

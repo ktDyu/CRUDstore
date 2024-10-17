@@ -5,6 +5,7 @@ import com.example.webstore.repository.StoreRepository;
 import com.example.webstore.response.StorePageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -60,19 +61,19 @@ public class StoreService {
     }
 
     public StorePageResponse getAllStorePage(int page, int size){
-        List<Store> listStore = storeRepository.findAll();
+        var storePage = storeRepository.findAll(PageRequest.of(page,size));
 
-        int totalNumbers = listStore.size();
-        int totalPages = totalNumbers/size+1;
+//        int totalNumbers = listStore.size();
+//        int totalPages = totalNumbers/size+1;
+//
+//        List<Store> listPage = new ArrayList<>();
+//
+//        int min = page * size;
+//        int max = Math.min(min+size,totalNumbers);
+//        for (int i = min; i < max; i++) {
+//           listPage.add(listStore.get(i));
+//        }
 
-        List<Store> listPage = new ArrayList<>();
-
-        int min = page * size;
-        int max = Math.min(min+size,totalNumbers);
-        for (int i = min; i < max; i++) {
-           listPage.add(listStore.get(i));
-        }
-
-        return new StorePageResponse(listPage,totalNumbers,totalPages);
+        return new StorePageResponse(storePage.getContent(),storePage.getTotalPages(),(int)storePage.getTotalElements());
     }
 }
